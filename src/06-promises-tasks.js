@@ -28,8 +28,15 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
+function willYouMarryMe(isPositiveAnswer) {
+  return new Promise((resolve, reject) => {
+    if (isPositiveAnswer === true) {
+      resolve('Hooray!!! She said "Yes"!');
+    } else if (isPositiveAnswer === false) {
+      resolve('Oh no, she said "No".');
+    }
+    reject(new Error('Wrong parameter is passed! Ask her again.'));
+  });
 }
 
 
@@ -48,8 +55,8 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  return Promise.all(array);
 }
 
 /**
@@ -71,14 +78,14 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  return Promise.race(array);
 }
 
 /**
  * Return Promise object that should be resolved with value that is
  * a result of action with values of all the promises that exists in array.
- * If some of promise is rejected you should catch it and process the next one.
+ * If some promise is rejected you should catch it and process the next one.
  *
  * @param {Promise[]} array
  * @param {Function} action
@@ -92,8 +99,22 @@ function getFastestPromise(/* array */) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
-  throw new Error('Not implemented');
+function chainPromises(array, action) {
+  const result = new Promise((resolve) => {
+    const resolved = [];
+
+    array.forEach((promise) => {
+      promise
+        .then((value) => {
+          resolved.push(value);
+          if (resolved.length === array.length) {
+            resolve(resolved.reduce(action));
+          }
+        })
+        .catch((value) => resolve(`Catch: ${value} is rejected`));
+    });
+  });
+  return result;
 }
 
 module.exports = {
