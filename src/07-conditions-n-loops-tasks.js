@@ -474,8 +474,8 @@ function getMatrixProduct(m1, m2) {
   for (let i = 0; i < newMatrix.length; i += 1) {
     newMatrix[i] = new Array(m2[i].length).fill(0);
     for (let j = 0; j < m1.length; j += 1) {
-      for (let k = 0; j < m2.length; k += 1) {
-        newMatrix[i][k] += m1[i][j] * m2[j][k];
+      for (let k = 0; k < m2.length; k += 1) {
+        newMatrix[i][j] += m1[i][k] * m2[k][j];
       }
     }
   }
